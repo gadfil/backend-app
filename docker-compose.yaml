@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "unless-stopped"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data:rw
+    ports:
+      - ${PORT}:${PORT}
+    healthcheck:
+      test: [ "CMD-SHELL", "/app/healthcheck.sh" ]
+      interval: 2s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - backend-app-network
+
+  db:
+    container_name: db
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PGDATA: "/data/postgres"
+
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    volumes:
+      - ./data/postgres:/data/postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - backend-app-network
+
+networks:
+  backend-app-network:
+    name: backend-app-network
+    driver: bridge
