@@ -3,23 +3,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: "unless-stopped"
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
       - ./data:/app/data:rw
     ports:
       - ${PORT}:${PORT}
-    healthcheck:
-      test: [ "CMD-SHELL", "/app/healthcheck.sh" ]
-      interval: 2s
-      timeout: 10s
-      retries: 3
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "50m"
-        max-file: "5"
+    depends_on:
+      - db
     networks:
       - backend-app-network
 

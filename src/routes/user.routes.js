@@ -1,12 +1,12 @@
 import express from "express";
-import {validateDto} from "../middlewares/validate-dto.js";
+import {validateDtoMiddleware} from "../middlewares/validate-dto.middleware.js";
 import {UserUpdateBalanceRequestDTO} from "../controllers/user.dto.js";
-import UserController from '../controllers/UserController.js'
-import userService from "../services/UserService.js";
+import UserController from '../controllers/user.controller.js'
+import userService from "../services/user.service.js";
 
 const router = express.Router();
 
 const userController = new UserController(userService)
-router.put('/balance', validateDto(UserUpdateBalanceRequestDTO), userController.updateBalance);
+router.put('/balance', validateDtoMiddleware(UserUpdateBalanceRequestDTO), userController.updateBalance);
 
 export default router

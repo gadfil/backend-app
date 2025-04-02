@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import config from "./config/config.js";
-import {connectToDatabase} from './database/index.js';
+import {connectToDatabase} from './database/database.js';
 import {getMigrationsStatus, runMigrations} from './database/umzug.js';
 import userRoutes from "./routes/user.routes.js";
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-    res.json({message: "Hello world"});
+    res.json({message: "Hello world!"});
 });
 
 app.use("/users", userRoutes)

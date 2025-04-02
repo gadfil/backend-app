@@ -1,5 +1,5 @@
 import {Umzug, SequelizeStorage} from 'umzug';
-import {sequelize} from './index.js';
+import {sequelize} from './database.js';
 import {dirname, resolve} from 'path';
 import {fileURLToPath} from 'url';
 

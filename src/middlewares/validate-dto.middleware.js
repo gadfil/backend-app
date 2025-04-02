@@ -1,4 +1,4 @@
-export const validateDto = (schema) => (req, res, next) => {
+export const validateDtoMiddleware = (schema) => (req, res, next) => {
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
